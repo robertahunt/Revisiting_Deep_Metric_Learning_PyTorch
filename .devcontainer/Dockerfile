@@ -61,7 +61,6 @@ ENV PATH=/miniconda/bin:${PATH}
 RUN conda update -y conda
 RUN conda init
 
-RUN conda install -y h5py==2.9.0 scikit-image==0.14.2 scikit-learn==0.20.3 pandas==0.23.4 scipy==1.2.1 matplotlib==2.2.2 Pillow==5.2.0 tqdm==4.26.0 
 RUN conda install pytorch==1.11.0 cudatoolkit=11.3 faiss-gpu torchvision -c pytorch
 
 # used to speed up adding changes to the build process. Everything above should be pretty static
@@ -69,8 +68,10 @@ FROM base AS build1
 
 ENV WORLD_VIEW="DOCKER"
 
-
-RUN conda install albumentations -c conda-forge -y
+RUN conda install -y albumentations -c conda-forge
+#RUN conda install -y scikit-image scikit-learn pandas scipy matplotlib tqdm 
+#h5py scikit-image scikit-learn pandas scipy matplotlib Pillow tqdm 
+# RUN conda install albumentations -c conda-forge -y
 RUN python -m pip install pretrainedmodels
 
 
@@ -82,3 +83,4 @@ RUN chown rob:rob /miniconda -R
 USER rob
 
 
+RUN python -m pip freeze > /home/ngw861/01_abbey_rove/requirements.txt

@@ -1,0 +1,9 @@
+data/
+fashion_mnist_data/
+Caltech256/
+imagenet-autoencoder/
+experiments/**/**/
+deep_fashion_2_data/
+data_test/
+imagenet-autoencoder/
+paper/
