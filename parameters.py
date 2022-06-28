@@ -11,6 +11,7 @@ def basic_training_parameters(parser):
     parser.add_argument('--tv_split_perc',        default=0.8,      type=float, help='Percentage with which the training dataset is split into training/validation.')
     parser.add_argument('--augmentation',         default='base',   type=str,   help='Type of preprocessing/augmentation to use on the data.  \
                                                                                       Available: base (standard), adv (with color/brightness changes), big (Images of size 256x256), red (No RandomResizedCrop).')
+    parser.add_argument('--suffix',         default='',   type=str,   help='suffix for the results folder')
 
     ### General Training Parameters
     parser.add_argument('--lr',                default=0.00001,  type=float,        help='Learning Rate for network parameters.')

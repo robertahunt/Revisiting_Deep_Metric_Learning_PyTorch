@@ -1,0 +1,27 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "/home/ngw861/01_abbey_rove/main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--dataset=rove",
+                "--source_path=/home/ngw861/01_abbey_rove/data",
+                "--bs=32",
+                "--seed=0",
+                "--samples_per_class=2",
+                "--loss=npair",
+                "--batch_mining=npair",
+                "--arch=resnet50_frozen",
+                "--augmentation=rove"
+            ]
+        }
+    ]
+}

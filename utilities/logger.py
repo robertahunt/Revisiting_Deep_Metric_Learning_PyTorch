@@ -66,7 +66,7 @@ def set_logging(opt):
     if opt.savename == '':
         date = datetime.datetime.now()
         time_string = '{}-{}-{}-{}-{}-{}'.format(date.year, date.month, date.day, date.hour, date.minute, date.second)
-        checkfolder = opt.save_path+'/{}_{}_'.format(opt.dataset.upper(), opt.arch.upper())+time_string
+        checkfolder = opt.save_path+'/{}_{}_{}_'.format(opt.dataset.upper(), opt.arch.upper(),opt.suffix)+time_string
     counter     = 1
     while os.path.exists(checkfolder):
         checkfolder = opt.save_path+'/'+opt.savename+'_'+str(counter)

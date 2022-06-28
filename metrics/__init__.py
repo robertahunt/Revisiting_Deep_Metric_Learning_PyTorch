@@ -116,6 +116,7 @@ class MetricComputer():
             features        = np.vstack(feature_colls[evaltype]).astype('float32')
             features_cosine = normalize(features, axis=1)
 
+
             start = time.time()
 
             """============ Compute k-Means ==============="""

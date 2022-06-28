@@ -1,7 +1,29 @@
-import faiss, matplotlib.pyplot as plt, os, numpy as np, torch
+import faiss, matplotlib.pyplot as plt, os, numpy as np, pandas as pd, torch
 from PIL import Image
 
 
+
+def numpy_to_nexus_file(data, names, fp):
+    ntax, nchar = data.shape
+    data = data.astype('float')
+
+    with open(fp,'w') as f:
+        f.write('#NEXUS\n')
+        f.write('Begin data;\n')
+        f.write(f'Dimensions ntax={ntax} nchar={nchar};\n')
+        f.write('Format datatype=Continuous missing = ?;\n')
+        f.write('Matrix\n')
+        for tax, name in zip(data,names):
+            f.write(str(name) + '  ' + '  '.join(tax.astype(str)) + '\n')
+        f.write(';\n')
+        f.write('end;')
+
+def get_average_species_features(feature_matrix_all, image_paths):
+    species = [x[0].split('/')[-2] for x in image_paths]
+    df = pd.DataFrame(feature_matrix_all, index=species)
+    df['species'] = species
+    df = df.groupby('species').mean()
+    return df.values, df.index
 
 #######################
 def evaluate(dataset, LOG, metric_computer, dataloaders, model, opt, evaltypes, device,
@@ -42,6 +64,11 @@ def evaluate(dataset, LOG, metric_computer, dataloaders, model, opt, evaltypes, 
                print('Saved weights for best {}: {}\n'.format(log_key, parent_metric))
                set_checkpoint(model, opt, LOG.progress_saver, LOG.prop.save_path+'/checkpoint_{}_{}_{}.pth.tar'.format(log_key, evaltype, storage_metric), aux=aux_store)
 
+               np.save( os.path.join(LOG.prop.save_path,f'features_{evaltype}_{log_key}.npy'),extra_infos[evaltype]['features'])
+               data, names = get_average_species_features(extra_infos[evaltype]['features'], extra_infos[evaltype]['image_paths'])
+               numpy_to_nexus_file(data, names, os.path.join(LOG.prop.save_path,f'traits_{evaltype}_{log_key}.nex'))
+               np.save( os.path.join(LOG.prop.save_path,f'image_paths_{evaltype}_{log_key}.npy'),extra_infos[evaltype]['image_paths'])
+               
 
     ###
     if opt.log_online:

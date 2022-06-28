@@ -132,6 +132,8 @@ if train_data_sampler.requires_storage:
 dataloaders['training'] = torch.utils.data.DataLoader(datasets['training'], num_workers=opt.kernels, batch_sampler=train_data_sampler)
 
 opt.n_classes  = len(dataloaders['training'].dataset.avail_classes)
+if opt.dataset == 'rove':
+    opt.n_classes  = len(dataloaders['training'].dataset.avail_classes) + len(dataloaders['testing'].dataset.avail_classes)
 
 
 

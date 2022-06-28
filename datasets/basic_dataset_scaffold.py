@@ -1,7 +1,17 @@
 from torch.utils.data import Dataset
+import albumentations as A
 import torchvision.transforms as transforms
 import numpy as np
 from PIL import Image
+
+
+
+class Transforms:
+    def __init__(self, transforms: A.Compose):
+        self.transforms = transforms
+
+    def __call__(self, img, *args, **kwargs):
+        return self.transforms(image=np.array(img))["image"]
 
 
 """==================================================================================================="""
@@ -41,10 +51,82 @@ class BaseDataset(Dataset):
                                               transforms.ColorJitter(0.2, 0.2, 0.2, 0.2), transforms.RandomHorizontalFlip(0.5)])
             elif opt.augmentation=='red':
                 self.normal_transform.extend([transforms.Resize(size=256), transforms.RandomCrop(crop_im_size), transforms.RandomHorizontalFlip(0.5)])
+            elif opt.augmentation=='rove':
+                self.normal_transform = Transforms(
+                    A.Compose(
+                        [
+                            A.LongestMaxSize(max_size=224 + 10, p=1),
+                            A.PadIfNeeded(
+                                min_height=244,
+                                min_width=244,
+                                border_mode=cv2.BORDER_CONSTANT,
+                                value=(255, 255, 255),
+                                mask_value=(255, 255, 255),
+                                p=1,
+                            ),
+                            A.Rotate(
+                                limit=5,
+                                border_mode=cv2.BORDER_CONSTANT,
+                                value=(255, 255, 255),
+                                mask_value=(255, 255, 255),
+                                p=1,
+                            ),
+                            A.CenterCrop(height=224, width=224, p=1),
+                            A.VerticalFlip(p=0.5),
+                            A.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+                            ToTensorV2(),
+                        ]
+                    )
+                )
         else:
             self.normal_transform.extend([transforms.Resize(256), transforms.CenterCrop(crop_im_size)])
-        self.normal_transform.extend([transforms.ToTensor(), normalize])
-        self.normal_transform = transforms.Compose(self.normal_transform)
+            if opt.augmentation == 'rove':
+                self.normal_transform = Transforms(
+                    A.Compose(
+                        [
+                            A.LongestMaxSize(max_size=224 + 10, p=1),
+                            A.PadIfNeeded(
+                                min_height=244,
+                                min_width=244,
+                                border_mode=cv2.BORDER_CONSTANT,
+                                value=(255, 255, 255),
+                                mask_value=(255, 255, 255),
+                                p=1,
+                            ),
+                            A.Rotate(
+                                limit=5,
+                                border_mode=cv2.BORDER_CONSTANT,
+                                value=(255, 255, 255),
+                                mask_value=(255, 255, 255),
+                                p=1,
+                            ),
+                            A.RandomCrop(height=224, width=224, p=1),
+                            A.VerticalFlip(p=0.5),
+                            A.GridDistortion(
+                                num_steps=5,
+                                border_mode=cv2.BORDER_CONSTANT,
+                                value=(255, 255, 255),
+                                mask_value=(255, 255, 255),
+                                p=0.5,
+                            ),
+                            A.ElasticTransform(
+                                alpha=15,
+                                sigma=5,
+                                alpha_affine=5,
+                                border_mode=cv2.BORDER_CONSTANT,
+                                value=(255, 255, 255),
+                                mask_value=(255, 255, 255),
+                                p=0.2,
+                            ),
+                            A.ColorJitter(brightness=0.1, contrast=0.1, hue=0.025, p=0.25),
+                            A.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+                            ToTensorV2(),
+                        ]
+                    )
+                )
+        if opt.augmentation != 'rove':
+            self.normal_transform.extend([transforms.ToTensor(), normalize])
+            self.normal_transform = transforms.Compose(self.normal_transform)
 
 
     def init_setup(self):
