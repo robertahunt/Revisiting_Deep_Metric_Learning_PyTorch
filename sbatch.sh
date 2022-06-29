@@ -6,7 +6,7 @@
 #Note that a program will be killed once it exceeds this time!
 #SBATCH --time=3-00:00:00
 #gpu specs
-#SBATCH -p gpu --gres=gpu:titanx
+#SBATCH -p gpu --gres=gpu:titanx:2
 #Skipping many options! see man sbatch
 # From here on, we can start our program
 
@@ -23,3 +23,4 @@ python main.py --dataset=rove --suffix=lifted0 --source_path=/home/ngw861/01_abb
 #python main.py --dataset=rove --suffix=arcface0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize --augmentation=rove
 #python main.py --dataset=rove --suffix=contra0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove
 #python main.py --dataset=rove --suffix=tripD0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove
+#python main.py --dataset=rove --suffix=lifted0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen --augmentation=rove
