@@ -6,7 +6,7 @@
 #Note that a program will be killed once it exceeds this time!
 #SBATCH --time=3-00:00:00
 #gpu specs
-#SBATCH -p gpu --gres=gpu:titanx:2
+#SBATCH --gres=gpu:titanx:2
 #Skipping many options! see man sbatch
 # From here on, we can start our program
 
