@@ -17,10 +17,12 @@
                 "--bs=32",
                 "--seed=0",
                 "--samples_per_class=2",
-                "--loss=npair",
-                "--batch_mining=npair",
-                "--arch=resnet50_frozen",
-                "--augmentation=rove"
+                "--loss=margin",
+                "--batch_mining=distance",
+                "--arch=resnet50_frozen_normalize",
+                "--augmentation=rove",
+                "--loss_margin_beta=0.6",
+                "--use_tv_split"
             ]
         }
     ]

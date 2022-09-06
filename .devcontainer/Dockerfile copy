@@ -57,21 +57,27 @@ RUN apt-get install libffi-dev
 
 #RUN wget "https://repo.anaconda.com/miniconda/Miniconda3-py37_4.12.0-Linux-x86_64.sh"
 #RUN bash Miniconda3-py37_4.12.0-Linux-x86_64.sh -b -p /miniconda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh
-RUN bash Miniconda3-py38_4.12.0-Linux-x86_64.sh -b -p /miniconda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh
+RUN bash Miniconda3-py39_4.12.0-Linux-x86_64.sh -b -p /miniconda
 ENV PATH=/miniconda/bin:${PATH}
 RUN conda update -y conda
 RUN conda init
 
+FROM base as build0
 
-RUN conda install pytorch torchvision torchaudio cudatoolkit=11.6 -c pytorch -c conda-forge
+#RUN conda install pytorch==1.11.0 cudatoolkit=11.6 faiss-gpu torchvision -c pytorch -c conda-forge
 
-RUN python -m pip install albumentations
+RUN conda install pytorch torchvision torchaudio cudatoolkit=11.6 albumentations -c pytorch -c conda-forge
+
 # used to speed up adding changes to the build process. Everything above should be pretty static
-FROM base AS build1
+FROM build0 AS build1
 
+ENV WORLD_VIEW="DOCKER"
+#RUN conda install -y scikit-image scikit-learn pandas scipy matplotlib tqdm 
+#h5py scikit-image scikit-learn pandas scipy matplotlib Pillow tqdm 
+# RUN conda install albumentations -c conda-forge -y
 RUN python -m pip install pretrainedmodels
-RUN conda install -y pandas matplotlib faiss-gpu -c conda-forge
+
 
 RUN mkdir /home/ngw861
 RUN mkdir /home/ngw861/01_abbey_rove
