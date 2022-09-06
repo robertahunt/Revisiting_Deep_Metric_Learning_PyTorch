@@ -12,7 +12,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "--dataset=inaturalist_mini",
+                "--dataset=rove",
                 "--source_path=/home/ngw861/01_abbey_rove/data",
                 "--bs=32",
                 "--seed=0",
@@ -22,7 +22,7 @@
                 "--arch=resnet50_frozen_normalize",
                 "--augmentation=rove",
                 "--loss_margin_beta=0.6",
-                "--debug"
+                "--use_tv_split"
             ]
         }
     ]
