@@ -318,6 +318,9 @@ for epoch in range(opt.n_epochs):
                 embeds.detach().cpu(), input_indices
             )
 
+        if opt.debug:
+            break
+
     result_metrics = {"loss": np.mean(loss_collect)}
 
     ####
@@ -376,6 +379,9 @@ for epoch in range(opt.n_epochs):
 
     print("Total Epoch Runtime: {0:4.2f}s".format(time.time() - epoch_start_time))
     print("\n-----\n")
+
+    if opt.debug:
+        break
 
 
 """======================================================="""

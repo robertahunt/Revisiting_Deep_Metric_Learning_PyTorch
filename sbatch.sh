@@ -6,7 +6,7 @@
 #Note that a program will be killed once it exceeds this time!
 #SBATCH --time=3-00:00:00
 #gpu specs
-#SBATCH -p gpu --gres=gpu:titanx
+#SBATCH -p gpu --gres=gpu:a100
 #Skipping many options! see man sbatch
 # From here on, we can start our program
 
@@ -15,7 +15,10 @@ git log -1 --format="%H" > /home/ngw861/01_abbey_rove/git_commit.txt
 source /home/ngw861/venvs/01_abbey_rove/bin/activate
 python -m pip install -r /home/ngw861/01_abbey_rove/requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
 export GIT_PYTHON_REFRESH=quiet
-python main.py --dataset=rove --suffix=tripD0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
+python main.py --dataset=rove --suffix=tripD1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
+python main.py --dataset=rove --suffix=tripD2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
+python main.py --dataset=rove --suffix=tripD3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
+python main.py --dataset=rove --suffix=tripD4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
 
 
 
