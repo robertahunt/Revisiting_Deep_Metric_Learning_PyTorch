@@ -237,7 +237,10 @@ class MetricComputer:
                 features_cosine = torch.from_numpy(features_cosine).to(self.pars.device)
 
             start = time.time()
+
+            print('Computing Metrics...')
             for metric in self.list_of_metrics:
+                print('Starting on metric',metric)
                 input_dict = {}
                 if "features" in metric.requires:
                     input_dict["features"] = features
