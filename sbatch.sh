@@ -16,13 +16,20 @@ source /home/ngw861/venvs/01_abbey_rove/bin/activate
 python -m pip install -r /home/ngw861/01_abbey_rove/requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
 export GIT_PYTHON_REFRESH=quiet
 
+###### CUB200 ######
+python main.py --dataset=cub200 --suffix=multisim0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200 --suffix=multisim1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200 --suffix=multisim2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200 --suffix=multisim3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200 --suffix=multisim4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+
 ###### INAT ######
 
-python main.py --dataset=inaturalist_mini --suffix=multisim0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
-python main.py --dataset=inaturalist_mini --suffix=multisim1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
-python main.py --dataset=inaturalist_mini --suffix=multisim2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
-python main.py --dataset=inaturalist_mini --suffix=multisim3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
-python main.py --dataset=inaturalist_mini --suffix=multisim4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+#python main.py --dataset=inaturalist_mini --suffix=multisim0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+#python main.py --dataset=inaturalist_mini --suffix=multisim1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+#python main.py --dataset=inaturalist_mini --suffix=multisim2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+#python main.py --dataset=inaturalist_mini --suffix=multisim3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+#python main.py --dataset=inaturalist_mini --suffix=multisim4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
 
 
 
