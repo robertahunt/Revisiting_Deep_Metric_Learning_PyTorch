@@ -20,11 +20,11 @@ export GIT_PYTHON_REFRESH=quiet
 
 
 ###  TRIPLET 
-python main.py --dataset=rove --suffix=tripD0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
-#python main.py --dataset=cub200 --suffix=tripD1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
-#python main.py --dataset=cub200 --suffix=tripD2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
-#python main.py --dataset=cub200 --suffix=tripD3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
-#python main.py --dataset=cub200 --suffix=tripD4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
+python main.py --dataset=cub200 --suffix=tripD0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200 --suffix=tripD1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200 --suffix=tripD2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200 --suffix=tripD3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200 --suffix=tripD4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize
 
 ### MULTISIM
 #python main.py --dataset=cub200 --suffix=multisim0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
