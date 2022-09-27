@@ -17,14 +17,19 @@ python -m pip install -r /home/ngw861/01_abbey_rove/requirements.txt -f https://
 export GIT_PYTHON_REFRESH=quiet
 
 ###### CUB200 ######
-
+### PROXY ###
+python main.py --dataset=cub200  --suffix=proxy0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=proxy1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=proxy2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=proxy3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=proxy4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
 
 ### LIFTED ###
-python main.py --dataset=cub200 --suffix=lifted0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
-python main.py --dataset=cub200 --suffix=lifted1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
-python main.py --dataset=cub200 --suffix=lifted2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
-python main.py --dataset=cub200 --suffix=lifted3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
-python main.py --dataset=cub200 --suffix=lifted4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
+#python main.py --dataset=cub200 --suffix=lifted0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
+#python main.py --dataset=cub200 --suffix=lifted1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
+#python main.py --dataset=cub200 --suffix=lifted2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
+#python main.py --dataset=cub200 --suffix=lifted3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
+#python main.py --dataset=cub200 --suffix=lifted4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
 
 ### CONTRA ###
 #python main.py --dataset=cub200 --suffix=contra0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
