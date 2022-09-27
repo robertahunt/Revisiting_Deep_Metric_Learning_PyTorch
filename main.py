@@ -278,29 +278,7 @@ for epoch in range(opt.n_epochs):
         loss_args["batch_features"] = features
         loss = criterion(**loss_args)
 
-        ###
-        if (i+1)%opt.gradient_accumulation_steps == 0:
-            optimizer.zero_grad()
-            loss.backward()
-        else:
-            continue
-
-        ### Compute Model Gradients and log them!
-        grads = np.concatenate(
-            [
-                p.grad.detach().cpu().numpy().flatten()
-                for p in model.parameters()
-                if p.grad is not None
-            ]
-        )
-        grad_l2, grad_max = np.mean(np.sqrt(np.mean(np.square(grads)))), np.mean(
-            np.max(np.abs(grads))
-        )
-        LOG.progress_saver["Model Grad"].log("Grad L2", grad_l2, group="L2")
-        LOG.progress_saver["Model Grad"].log("Grad Max", grad_max, group="Max")
-
-        ### Update network weights!
-        optimizer.step()
+        loss.backward()
 
         ###
         loss_collect.append(loss.item())
@@ -320,6 +298,27 @@ for epoch in range(opt.n_epochs):
             train_data_sampler.replace_storage_entries(
                 embeds.detach().cpu(), input_indices
             )
+
+        ###
+        if (i+1)%opt.gradient_accumulation_steps == 0:
+            ### Update network weights!
+            optimizer.step()
+            optimizer.zero_grad()
+
+
+            ### Compute Model Gradients and log them!
+            grads = np.concatenate(
+                [
+                    p.grad.detach().cpu().numpy().flatten()
+                    for p in model.parameters()
+                    if p.grad is not None
+                ]
+            )
+            grad_l2, grad_max = np.mean(np.sqrt(np.mean(np.square(grads)))), np.mean(
+                np.max(np.abs(grads))
+            )
+            LOG.progress_saver["Model Grad"].log("Grad L2", grad_l2, group="L2")
+            LOG.progress_saver["Model Grad"].log("Grad Max", grad_max, group="Max")
 
         if opt.debug:
             break
