@@ -18,13 +18,19 @@ export GIT_PYTHON_REFRESH=quiet
 
 ###### CUB200 ######
 
+### ARCFACE ###
+python main.py --dataset=cub200  --suffix=arcface0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=arcface0 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=arcface0 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=arcface0 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=arcface0 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
 
 ### MARGIN06 ###
-python main.py --dataset=cub200 --suffix=margin06D0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
-python main.py --dataset=cub200 --suffix=margin06D0 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
-python main.py --dataset=cub200 --suffix=margin06D0 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
-python main.py --dataset=cub200 --suffix=margin06D0 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
-python main.py --dataset=cub200 --suffix=margin06D0 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+#python main.py --dataset=cub200 --suffix=margin06D0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+#python main.py --dataset=cub200 --suffix=margin06D0 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+#python main.py --dataset=cub200 --suffix=margin06D0 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+#python main.py --dataset=cub200 --suffix=margin06D0 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+#python main.py --dataset=cub200 --suffix=margin06D0 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
 
 ###  TRIPLET 
 #python main.py --dataset=cub200 --suffix=tripD0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=8 --gradient_accumulation_steps=14 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize
