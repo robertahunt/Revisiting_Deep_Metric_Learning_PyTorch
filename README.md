@@ -1,4 +1,4 @@
-# Deep Metric Learning Research in PyTorch
+# Deep Metric Learning Research in PyTorch - Modified for use with Rove-Tree-11 dataset
 
 ---
 ## What can I find here?
@@ -6,12 +6,22 @@
 This repository contains all code and implementations used in:
 
 ```
+Original Paper:
 Revisiting Training Strategies and Generalization Performance in Deep Metric Learning
-```
 
 accepted to **ICML 2020**.
 
 **Link**: https://arxiv.org/abs/2002.08473
+
+Our paper using code from the above paper with modifications:
+Rove-Tree-11: The not-so-wild Rover
+
+accepted to **ACCV 2022**
+
+**Link**: TBD
+
+```
+
 
 The code is meant to serve as a research starting point in Deep Metric Learning.
 By implementing key baselines under a consistent setting and logging a vast set of metrics, it should be easier to ensure that method gains are not due to implementational variations, while better understanding driving factors.
