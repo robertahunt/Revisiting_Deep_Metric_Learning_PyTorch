@@ -72,6 +72,7 @@ def basic_training_parameters(parser):
         help="Number of workers for pytorch dataloader.",
     )
     parser.add_argument("--bs", default=112, type=int, help="Mini-Batchsize to use.")
+    parser.add_argument("--gradient_accumulation_steps", default=1, type=int, help="Number of gradient accumulation steps to use. Used to augment the batch size on smaller gpus")
     parser.add_argument(
         "--seed", default=1, type=int, help="Random seed for reproducibility."
     )

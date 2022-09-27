@@ -13,7 +13,8 @@ def Give(opt, datapath):
     Returns:
         dict of PyTorch datasets for training, testing and evaluation.
     """
-    assert opt.use_tv_split == True
+    assert opt.use_tv_split == True, "This dataset uses a train, validation and test set"
+    
     image_sourcepath = datapath
     # Find available data classes.
     image_classes = sorted([x for x in os.listdir(image_sourcepath)])
@@ -47,7 +48,6 @@ def Give(opt, datapath):
     keys = sorted(list(image_dict.keys()))
 
     # Take all genera in staphylininae subfamily, and put them in train set,
-    #
     train_genera = [
         "Acylophorus",
         "Bisnius",
@@ -89,7 +89,6 @@ def Give(opt, datapath):
     ]
     test_genera = [x for x in genera if (x not in train_genera) & (x not in val_genera)]
 
-    # Following "Deep Metric Learning via Lifted Structured Feature Embedding", we use the first half of classes for training.
     train = [
         back_conversion[x] for x in image_classes if x.split("_")[0] in train_genera
     ]

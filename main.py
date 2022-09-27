@@ -279,8 +279,11 @@ for epoch in range(opt.n_epochs):
         loss = criterion(**loss_args)
 
         ###
-        optimizer.zero_grad()
-        loss.backward()
+        if (i+1)%opt.gradient_accumulation_steps == 0:
+            optimizer.zero_grad()
+            loss.backward()
+        else:
+            continue
 
         ### Compute Model Gradients and log them!
         grads = np.concatenate(

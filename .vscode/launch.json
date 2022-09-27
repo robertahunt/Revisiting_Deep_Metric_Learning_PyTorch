@@ -12,7 +12,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "--dataset=rove",
+                "--dataset=cub200",
                 "--source_path=/home/ngw861/01_abbey_rove/data",
                 "--bs=32",
                 "--seed=0",
@@ -20,9 +20,7 @@
                 "--loss=margin",
                 "--batch_mining=distance",
                 "--arch=resnet50_frozen_normalize",
-                "--augmentation=rove",
-                "--loss_margin_beta=0.6",
-                "--use_tv_split"
+                "--loss_margin_beta=0.6"
             ]
         }
     ]
