@@ -6,7 +6,7 @@
 #Note that a program will be killed once it exceeds this time!
 #SBATCH --time=3-00:00:00
 #gpu specs
-#SBATCH -p gpu --gres=gpu:a100:2
+#SBATCH -p gpu --gres=gpu:titanx
 #Skipping many options! see man sbatch
 # From here on, we can start our program
 
@@ -20,11 +20,11 @@ export GIT_PYTHON_REFRESH=quiet
 
 
 ###  TRIPLET 
-python main.py --dataset=cub200 --suffix=tripD0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
-python main.py --dataset=cub200 --suffix=tripD1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
-python main.py --dataset=cub200 --suffix=tripD2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
-python main.py --dataset=cub200 --suffix=tripD3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
-python main.py --dataset=cub200 --suffix=tripD4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
+python main.py --dataset=cub200 --suffix=tripD0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0  --bs=28 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
+#python main.py --dataset=cub200 --suffix=tripD1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
+#python main.py --dataset=cub200 --suffix=tripD2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
+#python main.py --dataset=cub200 --suffix=tripD3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
+#python main.py --dataset=cub200 --suffix=tripD4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
 
 ### MULTISIM
 #python main.py --dataset=cub200 --suffix=multisim0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
