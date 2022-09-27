@@ -14,13 +14,14 @@
             "args": [
                 "--dataset=cub200",
                 "--source_path=/home/ngw861/01_abbey_rove/data",
-                "--bs=32",
+                "--bs=4",
                 "--seed=0",
                 "--samples_per_class=2",
                 "--loss=margin",
                 "--batch_mining=distance",
                 "--arch=resnet50_frozen_normalize",
-                "--loss_margin_beta=0.6"
+                "--loss_margin_beta=0.6",
+                "--gradient_accumulation_steps=28"
             ]
         }
     ]
