@@ -3,6 +3,9 @@ from datasets.basic_dataset_scaffold import BaseDataset
 import os
 import numpy as np
 
+from glob import glob
+from pathlib import Path
+
 
 def Give(opt, datapath):
     """
@@ -13,24 +16,32 @@ def Give(opt, datapath):
     Returns:
         dict of PyTorch datasets for training, testing and evaluation.
     """
-    assert opt.use_tv_split == True, "This dataset uses a train, validation and test set"
-    
-    image_sourcepath = datapath
+    assert (
+        opt.use_tv_split == True
+    ), "This dataset uses a train, validation and test set"
+
+    image_sourcepath = Path(datapath)
     # Find available data classes.
-    image_classes = sorted([x for x in os.listdir(image_sourcepath)])
-    genera = np.unique([x.split("_")[0] for x in image_classes])
+    image_classes = sorted(
+        [Path(x).name for x in glob(str(image_sourcepath / "*" / "*"))]
+    )
+    train_classes = sorted(
+        [Path(x).name for x in glob(str(image_sourcepath / "train" / "*"))]
+    )
+    val_classes = sorted(
+        [Path(x).name for x in glob(str(image_sourcepath / "val" / "*"))]
+    )
+    test_classes = sorted(
+        [Path(x).name for x in glob(str(image_sourcepath / "test" / "*"))]
+    )
+
     # Make a index-to-labelname conversion dict.
     conversion = {i: image_classes[i] for i in range(len(image_classes))}
     back_conversion = {v: k for k, v in conversion.items()}
 
     # Generate a list of tuples (class_label, image_path)
     image_list = {
-        back_conversion[key]: sorted(
-            [
-                image_sourcepath + "/" + key + "/" + x
-                for x in os.listdir(image_sourcepath + "/" + key)
-            ]
-        )
+        back_conversion[key]: sorted(glob(str(image_sourcepath / "*" / key / "*.jpg")))
         for key in image_classes
     }
     image_list = [
@@ -45,55 +56,9 @@ def Give(opt, datapath):
             image_dict[key] = []
         image_dict[key].append(img_path)
 
-    keys = sorted(list(image_dict.keys()))
-
-    # Take all genera in staphylininae subfamily, and put them in train set,
-    train_genera = [
-        "Acylophorus",
-        "Bisnius",
-        "Cafius",
-        "Creophilus",
-        "Dinothenarus",
-        "Emus",
-        "Erichsonius",
-        "Euryporus",
-        "Gabrius",
-        "Gabronthus",
-        "Heterothops",
-        "Neobisnius",
-        "Ocypus",
-        "Ontholestes",
-        "Philonthus",
-        "Platydracus",
-        "Quedius",
-        "Remus",
-        "Staphylinus",
-        "Tasgius",
-        "Velleius",
-    ]
-    val_genera = [
-        "Achenium",
-        "Astenus",
-        "Lathrobium",
-        "Lithocharis",
-        "Lobrathium",
-        "Medon",
-        "Ochthephilum",
-        "Paederidus",
-        "Paederus",
-        "Pseudomedon",
-        "Rugilus",
-        "Scopaeus",
-        "Sunius",
-        "Tetartopeus",
-    ]
-    test_genera = [x for x in genera if (x not in train_genera) & (x not in val_genera)]
-
-    train = [
-        back_conversion[x] for x in image_classes if x.split("_")[0] in train_genera
-    ]
-    val = [back_conversion[x] for x in image_classes if x.split("_")[0] in val_genera]
-    test = [back_conversion[x] for x in image_classes if x.split("_")[0] in test_genera]
+    train = [back_conversion[x] for x in train_classes]
+    val = [back_conversion[x] for x in val_classes]
+    test = [back_conversion[x] for x in test_classes]
     assert len(image_classes) == len(train + val + test)
     assert len(set(image_classes)) == len(set(train + val + test))
 

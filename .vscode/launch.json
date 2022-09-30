@@ -12,16 +12,17 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "--dataset=cub200",
+                "--dataset=rove",
                 "--source_path=/home/ngw861/01_abbey_rove/data",
-                "--bs=4",
+                "--bs=8",
                 "--seed=0",
                 "--samples_per_class=2",
                 "--loss=margin",
                 "--batch_mining=distance",
                 "--arch=resnet50_frozen_normalize",
                 "--loss_margin_beta=0.6",
-                "--gradient_accumulation_steps=28"
+                "--gradient_accumulation_steps=14",
+                "--use_tv_split"
             ]
         }
     ]
