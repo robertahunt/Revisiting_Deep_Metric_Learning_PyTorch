@@ -6,7 +6,7 @@
 #Note that a program will be killed once it exceeds this time!
 #SBATCH --time=3-00:00:00
 #gpu specs
-#SBATCH -p gpu --gres=gpu:a100:2
+#SBATCH -p gpu --gres=gpu:a100:1
 #Skipping many options! see man sbatch
 # From here on, we can start our program
 
@@ -15,7 +15,6 @@ git log -1 --format="%H" > /home/ngw861/01_abbey_rove/git_commit.txt
 source /home/ngw861/venvs/01_abbey_rove/bin/activate
 python -m pip install -r /home/ngw861/01_abbey_rove/requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
 export GIT_PYTHON_REFRESH=quiet
-
 
 python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=margin06D1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
 python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=margin06D4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
