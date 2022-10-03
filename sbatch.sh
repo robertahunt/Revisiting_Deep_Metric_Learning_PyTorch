@@ -17,11 +17,8 @@ python -m pip install -r /home/ngw861/01_abbey_rove/requirements.txt -f https://
 export GIT_PYTHON_REFRESH=quiet
 
 
-python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=lifted1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
-python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=lifted2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
-python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=lifted3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
-python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=lifted4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
-python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=lifted0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
+python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=margin06D1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=margin06D4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
 
 ###### CUB200 ######
 ### PROXY ###
