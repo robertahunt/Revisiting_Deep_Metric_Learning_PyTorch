@@ -300,11 +300,12 @@ for epoch in range(opt.n_epochs):
             )
 
         ###
-        if (i+1)%opt.gradient_accumulation_steps == 0:
+        if ((i + 1) % opt.gradient_accumulation_steps == 0) or (
+            i == (len(data_iterator) - 1)
+        ):
             ### Update network weights!
             optimizer.step()
             optimizer.zero_grad()
-
 
             ### Compute Model Gradients and log them!
             grads = np.concatenate(
