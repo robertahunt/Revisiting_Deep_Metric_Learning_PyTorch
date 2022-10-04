@@ -16,8 +16,11 @@ source /home/ngw861/venvs/01_abbey_rove/bin/activate
 python -m pip install -r /home/ngw861/01_abbey_rove/requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
 export GIT_PYTHON_REFRESH=quiet
 
-python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=lifted3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
-python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=lifted4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
+python main.py --dataset=cub200  --suffix=arcface0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=arcface1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=arcface2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=arcface3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
+python main.py --dataset=cub200  --suffix=arcface4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
 
 
 ##### CUB200 BS 112 #####
