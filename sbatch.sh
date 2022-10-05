@@ -16,12 +16,12 @@ source /home/ngw861/venvs/01_abbey_rove/bin/activate
 python -m pip install -r /home/ngw861/01_abbey_rove/requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
 export GIT_PYTHON_REFRESH=quiet
 
-python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=arcface1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
+#python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=arcface1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
 
 
 #python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=lifted3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
 #python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=margin06D3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
-#python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=arcface3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
+python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=arcface3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
 
 #python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=lifted4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
 #python main.py --dataset=rove  --augmentation=rove --use_tv_split --suffix=contra2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
