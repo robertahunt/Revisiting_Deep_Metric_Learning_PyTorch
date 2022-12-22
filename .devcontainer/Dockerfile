@@ -64,11 +64,13 @@ RUN conda update -y conda
 RUN conda init
 
 
-RUN conda install pytorch torchvision torchaudio cudatoolkit=11.6 -c pytorch -c conda-forge
+# RUN conda install pytorch torchvision torchaudio cudatoolkit=11.6 -c pytorch -c conda-forge
+# RUN conda install pytorch==1.9.0 torchvision==0.10.0 torchaudio==0.9.0 -c pytorch -y 
+RUN pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116 --upgrade
 
 RUN python -m pip install albumentations
 # used to speed up adding changes to the build process. Everything above should be pretty static
-FROM base AS build1
+# FROM base AS build1
 
 RUN python -m pip install pretrainedmodels
 RUN conda install -y pandas matplotlib faiss-gpu -c conda-forge

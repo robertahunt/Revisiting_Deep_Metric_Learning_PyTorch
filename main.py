@@ -158,7 +158,7 @@ dataloaders["training"] = torch.utils.data.DataLoader(
 )
 
 opt.n_classes = len(dataloaders["training"].dataset.avail_classes)
-if opt.dataset == "rove":
+if "rove" in opt.dataset:
     opt.n_classes = (
         len(dataloaders["training"].dataset.avail_classes)
         + len(dataloaders["testing"].dataset.avail_classes)
