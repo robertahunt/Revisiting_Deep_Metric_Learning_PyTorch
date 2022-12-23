@@ -278,10 +278,11 @@ for epoch in range(opt.n_epochs):
         loss_args["batch_features"] = features
         loss = criterion(**loss_args)
 
-        loss.backward()
+        if not torch.isnan(loss):
+            loss.backward()
 
-        ###
-        loss_collect.append(loss.item())
+            ###
+            loss_collect.append(loss.item())
 
         ###
         iter_count += 1

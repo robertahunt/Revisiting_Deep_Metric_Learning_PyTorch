@@ -50,5 +50,8 @@ class Criterion(torch.nn.Module):
 
             loss.append(pos_term + neg_term)
 
-        loss = torch.mean(torch.stack(loss))
+        if len(loss):
+            loss = torch.mean(torch.stack(loss))
+        else: 
+            loss = torch.tensor(torch.nan)
         return loss
