@@ -33,11 +33,11 @@ export GIT_PYTHON_REFRESH=quiet
 #python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=lifted4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
 
 ### CONTRA ###
-python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=contra0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
-python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=contra1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
-python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=contra2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
-python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=contra3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
-python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=contra4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
+#python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=contra0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
+#python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=contra1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
+#python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=contra2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
+#python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=contra3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
+#python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=contra4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=contrastive --batch_mining=distance --arch=resnet50_frozen_normalize
 
 ### ARCFACE ###
 #python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=arcface0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=arcface --arch=resnet50_frozen_normalize
@@ -63,11 +63,11 @@ python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=
 #python main.py --dataset=roveGenus --suffix=tripD4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4  --bs=112 --samples_per_class=2  --loss=triplet --batch_mining=distance --arch=resnet50_frozen_normalize --augmentation=rove --use_tv_split
 
 ### MULTISIM
-#python main.py --dataset=roveGenus  --augmentation=rove --suffix=multisim0 --use_tv_split --source_path=/home/ngw861/01_abbey_rove/data --seed=0  --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
-#python main.py --dataset=roveGenus  --augmentation=rove --suffix=multisim1 --use_tv_split --source_path=/home/ngw861/01_abbey_rove/data --seed=1  --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
-#python main.py --dataset=roveGenus  --augmentation=rove --suffix=multisim2 --use_tv_split --source_path=/home/ngw861/01_abbey_rove/data --seed=2  --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
-#python main.py --dataset=roveGenus  --augmentation=rove --suffix=multisim3 --use_tv_split --source_path=/home/ngw861/01_abbey_rove/data --seed=3  --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
-#python main.py --dataset=roveGenus  --augmentation=rove --suffix=multisim4 --use_tv_split --source_path=/home/ngw861/01_abbey_rove/data --seed=4  --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+python main.py --dataset=roveGenus  --augmentation=rove --suffix=multisim0 --use_tv_split --source_path=/home/ngw861/01_abbey_rove/data --seed=0  --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+python main.py --dataset=roveGenus  --augmentation=rove --suffix=multisim1 --use_tv_split --source_path=/home/ngw861/01_abbey_rove/data --seed=1  --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+python main.py --dataset=roveGenus  --augmentation=rove --suffix=multisim2 --use_tv_split --source_path=/home/ngw861/01_abbey_rove/data --seed=2  --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+python main.py --dataset=roveGenus  --augmentation=rove --suffix=multisim3 --use_tv_split --source_path=/home/ngw861/01_abbey_rove/data --seed=3  --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
+python main.py --dataset=roveGenus  --augmentation=rove --suffix=multisim4 --use_tv_split --source_path=/home/ngw861/01_abbey_rove/data --seed=4  --bs=112 --samples_per_class=2 --loss=multisimilarity --arch=resnet50_frozen_normalize
 
 ##### CUB200 BS 112 #####
 
