@@ -1,9 +1,11 @@
 #!/bin/bash
 #cp ../00_repo/** ../00_ae/ -r
 #cp ../00_repo/** ../00_ae_repo/ -r
-git log -1 --format="%H" > /home/ngw861/00_ae/git_commit.txt
-git --git-dir=/home/ngw861/00_ae_repo/.git --work-tree=/home/ngw861/00_ae_repo pull
+git log -1 --format="%H" > /home/ngw861/01_abbey_rove/git_commit.txt
+git --git-dir=/home/ngw861/01_abbey_rove/.git --work-tree=/home/ngw861/01_abbey_rove pull
 echo "Updated Git"
+source /home/ngw861/venv/01_abbey_rove/bin/activate
+
 
 if [[ -f "$1" || -d "$1" ]]
 then

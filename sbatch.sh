@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH -p gpu
 #SBATCH --job-name=Rove
 #number of independent tasks we are going to start in this script
 #SBATCH --ntasks=1 --cpus-per-task=4 --mem=6000M
@@ -10,20 +11,34 @@
 #Skipping many options! see man sbatch
 # From here on, we can start our program
 
-echo "Starting..." > /home/ngw861/out.txt
-git log -1 --format="%H" > /home/ngw861/01_abbey_rove/git_commit.txt
+#[ -d /home ] && echo "/home directory exists."
+#[ -d /home/ngw861 ] && echo "/home/ngw861 directory exists."
+#[ -d /home/ngw861/venv ] && echo "/home/ngw861/venv directory exists."
+#[ -d /home/ngw861/venv/01_abbey_rove/bin ] && echo "/home/ngw861/venv/01_abbey_rove directory exists."
+#[ -d /home/ngw861/01_abbey_rove ] && echo "/home/ngw861/01_abbey_rove directory exists."
+#echo "$(ls -l /home/ngw861/venv/01_abbey_rove/bin)"
+
+#echo "Starting..." > /home/ngw861/out.txt
+#git log -1 --format="%H" > /home/ngw861/01_abbey_rove/ python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+#git_commit.txt
+module load python/3.9.9
 source /home/ngw861/venvs/01_abbey_rove/bin/activate
-python -m pip install -r /home/ngw861/01_abbey_rove/requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
-export GIT_PYTHON_REFRESH=quiet
+echo "$(nvidia-smi)"
+
+#python3 -m pip install pip --upgrade
+#python3 -m pip install -r /home/ngw861/01_abbey_rove/requirements_clust.txt -f https://download.pytorch.org/whl/torch_stable.html
+#export GIT_PYTHON_REFRESH=quiet
+#echo "$(which python3)"
+#echo "$(whereis python3)"
 
 ##### RoveGenus #####
 
 ### PROXY ###
-python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
-python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
-python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
-python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
-python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+python3 main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+#python3 main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+#python3 main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+#python3 main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+#python3 main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=proxy4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
 
 ### LIFTED ###
 #python main.py --dataset=roveGenus  --augmentation=rove --use_tv_split --suffix=lifted0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
