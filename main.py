@@ -13,6 +13,7 @@ matplotlib.use("agg")
 import matplotlib.pyplot as plt
 
 from tqdm import tqdm
+from carbontracker.tracker import CarbonTracker
 
 import parameters as par
 
@@ -225,9 +226,11 @@ print("\n-----\n")
 
 iter_count = 0
 loss_args = {"batch": None, "labels": None, "batch_features": None, "f_embed": None}
-
+carbon_tracker = CarbonTracker(opt.n_epochs,
+            log_dir='carbontracker/',monitor_epochs=-1)
 
 for epoch in range(opt.n_epochs):
+    carbon_tracker.epoch_start()
     epoch_start_time = time.time()
 
     if epoch > 0 and opt.data_idx_full_prec and train_data_sampler.requires_storage:
@@ -386,6 +389,8 @@ for epoch in range(opt.n_epochs):
 
     if opt.debug:
         break
+    
+    carbon_tracker.epoch_end()
 
 
 """======================================================="""
