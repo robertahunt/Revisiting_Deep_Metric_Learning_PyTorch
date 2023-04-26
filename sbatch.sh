@@ -33,12 +33,20 @@ echo "$(nvidia-smi)"
 
 ##### RoveClassification #####
 
+### Check Classification Split ###
+python3 main.py --dataset=roveClassification0  --augmentation=rove --use_tv_split  --suffix=margin06D0rc0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+python3 main.py --dataset=roveClassification1  --augmentation=rove --use_tv_split  --suffix=margin06D1rc1 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+python3 main.py --dataset=roveClassification2  --augmentation=rove --use_tv_split  --suffix=margin06D1rc2 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+python3 main.py --dataset=roveClassification3  --augmentation=rove --use_tv_split  --suffix=margin06D1rc3 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+python3 main.py --dataset=roveClassification4  --augmentation=rove --use_tv_split  --suffix=margin06D1rc4 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2 --loss=margin --batch_mining=distance --arch=resnet50_frozen_normalize --loss_margin_beta=0.6
+
+
 ### PROXY ###
-python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=proxy0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
-python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=proxy1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
-python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=proxy2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
-python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=proxy3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
-python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=proxy4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+#python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=proxy0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+#python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=proxy1 --source_path=/home/ngw861/01_abbey_rove/data --seed=1 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+#python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=proxy2 --source_path=/home/ngw861/01_abbey_rove/data --seed=2 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+#python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=proxy3 --source_path=/home/ngw861/01_abbey_rove/data --seed=3 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
+#python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=proxy4 --source_path=/home/ngw861/01_abbey_rove/data --seed=4 --bs=112 --samples_per_class=2  --loss=proxynca --arch=resnet50_frozen_normalize
 
 ### LIFTED ###
 #python3 main.py --dataset=roveClassification  --augmentation=rove --use_tv_split --suffix=lifted0 --source_path=/home/ngw861/01_abbey_rove/data --seed=0 --bs=112 --samples_per_class=2  --loss=lifted --batch_mining=lifted --arch=resnet50_frozen
