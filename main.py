@@ -347,7 +347,7 @@ for epoch in range(opt.n_epochs):
 
     loss_collect = []
 
-    plot_inputs(dataloaders)
+    # plot_inputs(dataloaders)
 
     data_iterator = tqdm(
         dataloaders["training"], desc="Epoch {} Training...".format(epoch)
