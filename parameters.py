@@ -35,6 +35,12 @@ def basic_training_parameters(parser):
                                                                                       Available: base (standard), adv (with color/brightness changes), big (Images of size 256x256), red (No RandomResizedCrop).",
     )
     parser.add_argument(
+        "--checkpoint",
+        default="",
+        type=str,
+        help="Checkpoint to load the trained model from",
+    )
+    parser.add_argument(
         "--suffix", default="", type=str, help="suffix for the results folder"
     )
 
@@ -207,6 +213,11 @@ def basic_training_parameters(parser):
         default=os.getcwd() + "/Training_Results",
         type=str,
         help="Where to save everything.",
+    )
+    parser.add_argument(
+        "--gradcam",
+        action="store_true",
+        help="Generate Gradcam-like saliency maps",
     )
 
     return parser

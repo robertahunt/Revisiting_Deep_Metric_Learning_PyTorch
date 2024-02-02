@@ -5,6 +5,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+import cv2
 import os, sys, numpy as np, argparse, imp, datetime, pandas as pd, copy
 import time, pickle as pkl, random, json, collections
 import matplotlib
@@ -13,9 +14,13 @@ matplotlib.use("agg")
 import matplotlib.pyplot as plt
 
 from tqdm import tqdm
-from carbontracker.tracker import CarbonTracker
+#from carbontracker.tracker import CarbonTracker
 
 import parameters as par
+from pytorch_grad_cam import GradCAM
+from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
+from pytorch_grad_cam.utils.image import show_cam_on_image
+
 
 
 """==================================================================================================="""
@@ -220,17 +225,101 @@ summary = data_text + "\n" + setup_text + "\n" + miner_text + "\n" + arch_text
 print(summary)
 
 
+
+"""============================================================================"""
+################### Load Model #########################
+if len(opt.checkpoint):
+    assert os.path.exists(opt.checkpoint), f"Could not find path at {opt.checkpoint}"
+    model.load_state_dict(torch.load(opt.checkpoint)['state_dict'])
+
+
+"""============================================================================"""
+################### Produce saliency maps #########################
+if opt.gradcam:
+    target_layers =[ model.model.layer4[-1].relu]#  model.model.layer4[-1].relu
+    cam = GradCAM(model=model, target_layers=target_layers)
+    
+    # for each genus - get an example per genus
+    image_dict = datasets['training'].image_dict
+
+    assert len(opt.checkpoint)
+    gradcam_folder = os.path.join('/'.join(opt.checkpoint.split('/')[:-1]), 'gradcam')
+    if not os.path.exists(gradcam_folder):
+        os.makedirs(gradcam_folder)
+    
+    genera_ids = image_dict.keys()
+    for genus_id in genera_ids:
+        genus = datasets['training'].conversion[genus_id]
+        image_id = image_dict[genus_id][0][-1]
+        input = datasets['training'].__getitem__(image_id)[1].unsqueeze(0)
+
+        image = input[0].permute(1,2,0).detach().cpu().numpy()
+        image = (image - image.min()) / (image.max()-image.min())
+        for latent_var in range(128):
+            targets = [ClassifierOutputTarget(latent_var),ClassifierOutputTarget(latent_var)]
+            input_tensor = input.repeat(len(targets), 1, 1, 1)
+            
+
+            saliency = cam(input_tensor=input_tensor,targets=targets)[0]
+            visualization = show_cam_on_image(image, saliency, use_rgb = True)
+            latent_folder = os.path.join(gradcam_folder,str(latent_var))
+            if not os.path.exists(latent_folder):
+                os.makedirs(latent_folder)
+            
+            plot_path = os.path.join(latent_folder, genus + '.png')
+            plt.figure()
+            plt.imshow(visualization)
+            plt.savefig(plot_path)
+
+    quit()
+
+
+def plot_inputs(dataloaders):
+    
+    data_iterator = tqdm(
+        dataloaders["training"], desc="Plotting Training...".format(epoch)
+    )
+
+    for i, out in enumerate(data_iterator):
+        class_labels, input, input_indices = out
+
+        if not os.path.exists(os.path.join(opt.save_path,'train_examples')):
+            os.makedirs(os.path.join(opt.save_path,'train_examples'))
+
+        for j in range(input.shape[0]):
+            img = input[j].permute(1,2,0).detach().cpu().numpy()
+            img = (img - img.min())/(img.max() - img.min()) * 255
+            img = cv2.cvtColor(img.astype('uint8'), cv2.COLOR_RGB2BGR)
+            cv2.imwrite(os.path.join(opt.save_path,'train_examples',f'{j}.png'),img.astype('uint8'))
+        break
+    data_iterator = tqdm(
+        dataloaders["validation"], desc="Plotting Validation...".format(epoch)
+    )
+
+    for i, out in enumerate(data_iterator):
+        class_labels, input, input_indices = out
+
+        if not os.path.exists(os.path.join(opt.save_path,'val_examples')):
+            os.makedirs(os.path.join(opt.save_path,'val_examples'))
+
+        for j in range(input.shape[0]):
+            img = input[j].permute(1,2,0).detach().cpu().numpy()
+            img = (img - img.min())/(img.max() - img.min()) * 255
+            img = cv2.cvtColor(img.astype('uint8'), cv2.COLOR_RGB2BGR)
+            cv2.imwrite(os.path.join(opt.save_path,'val_examples',f'{j}.png'),img)
+        break
+
 """============================================================================"""
 ################### SCRIPT MAIN ##########################
 print("\n-----\n")
 
 iter_count = 0
 loss_args = {"batch": None, "labels": None, "batch_features": None, "f_embed": None}
-carbon_tracker = CarbonTracker(opt.n_epochs,
-            log_dir='carbontracker/',monitor_epochs=-1)
+#carbon_tracker = CarbonTracker(opt.n_epochs,
+#            log_dir='carbontracker/',monitor_epochs=-1)
 
 for epoch in range(opt.n_epochs):
-    carbon_tracker.epoch_start()
+    #carbon_tracker.epoch_start()
     epoch_start_time = time.time()
 
     if epoch > 0 and opt.data_idx_full_prec and train_data_sampler.requires_storage:
@@ -257,6 +346,9 @@ for epoch in range(opt.n_epochs):
     _ = model.train()
 
     loss_collect = []
+
+    plot_inputs(dataloaders)
+
     data_iterator = tqdm(
         dataloaders["training"], desc="Epoch {} Training...".format(epoch)
     )
@@ -279,6 +371,7 @@ for epoch in range(opt.n_epochs):
         loss_args["labels"] = class_labels
         loss_args["f_embed"] = model.model.last_linear
         loss_args["batch_features"] = features
+        loss_args["T"] = dataloaders["training"].dataset.T
         loss = criterion(**loss_args)
 
         if not torch.isnan(loss):
@@ -311,19 +404,19 @@ for epoch in range(opt.n_epochs):
             optimizer.step()
             optimizer.zero_grad()
 
-            ### Compute Model Gradients and log them!
-            grads = np.concatenate(
-                [
+            grads = [
                     p.grad.detach().cpu().numpy().flatten()
                     for p in model.parameters()
                     if p.grad is not None
                 ]
-            )
-            grad_l2, grad_max = np.mean(np.sqrt(np.mean(np.square(grads)))), np.mean(
-                np.max(np.abs(grads))
-            )
-            LOG.progress_saver["Model Grad"].log("Grad L2", grad_l2, group="L2")
-            LOG.progress_saver["Model Grad"].log("Grad Max", grad_max, group="Max")
+            if len(grads):
+                ### Compute Model Gradients and log them!
+                grads = np.concatenate(grads)
+                grad_l2, grad_max = np.mean(np.sqrt(np.mean(np.square(grads)))), np.mean(
+                    np.max(np.abs(grads))
+                )
+                LOG.progress_saver["Model Grad"].log("Grad L2", grad_l2, group="L2")
+                LOG.progress_saver["Model Grad"].log("Grad Max", grad_max, group="Max")
 
         if opt.debug:
             break
@@ -337,60 +430,61 @@ for epoch in range(opt.n_epochs):
     LOG.progress_saver["Train"].log("time", np.round(time.time() - start, 4))
 
     """======================================="""
-    ### Evaluate Metric for Training & Test (& Validation)
-    _ = model.eval()
-    print("\nComputing Testing Metrics...")
-    eval.evaluate(
-        opt.dataset,
-        LOG,
-        metric_computer,
-        [dataloaders["testing"]],
-        model,
-        opt,
-        opt.evaltypes,
-        opt.device,
-        log_key="Test",
-    )
-    if opt.use_tv_split:
-        print("\nComputing Validation Metrics...")
+    if (epoch % 10) == 0:
+        ### Evaluate Metric for Training & Test (& Validation)
+        _ = model.eval()
+        print("\nComputing Testing Metrics...")
         eval.evaluate(
             opt.dataset,
             LOG,
             metric_computer,
-            [dataloaders["validation"]],
+            [dataloaders["testing"]],
             model,
             opt,
             opt.evaltypes,
             opt.device,
-            log_key="Val",
+            log_key="Test",
         )
-    print("\nComputing Training Metrics...")
-    eval.evaluate(
-        opt.dataset,
-        LOG,
-        metric_computer,
-        [dataloaders["evaluation"]],
-        model,
-        opt,
-        opt.evaltypes,
-        opt.device,
-        log_key="Train",
-    )
+        if opt.use_tv_split:
+            print("\nComputing Validation Metrics...")
+            eval.evaluate(
+                opt.dataset,
+                LOG,
+                metric_computer,
+                [dataloaders["validation"]],
+                model,
+                opt,
+                opt.evaltypes,
+                opt.device,
+                log_key="Val",
+            )
+        print("\nComputing Training Metrics...")
+        eval.evaluate(
+            opt.dataset,
+            LOG,
+            metric_computer,
+            [dataloaders["evaluation"]],
+            model,
+            opt,
+            opt.evaltypes,
+            opt.device,
+            log_key="Train",
+        )
 
-    LOG.update(all=True)
+        LOG.update(all=True)
 
-    """======================================="""
-    ### Learning Rate Scheduling Step
-    if opt.scheduler != "none":
-        scheduler.step()
+        """======================================="""
+        ### Learning Rate Scheduling Step
+        if opt.scheduler != "none":
+            scheduler.step()
 
-    print("Total Epoch Runtime: {0:4.2f}s".format(time.time() - epoch_start_time))
-    print("\n-----\n")
+        print("Total Epoch Runtime: {0:4.2f}s".format(time.time() - epoch_start_time))
+        print("\n-----\n")
 
-    if opt.debug:
-        break
-    
-    carbon_tracker.epoch_end()
+        if opt.debug:
+            break
+        
+        #carbon_tracker.epoch_end()
 
 
 """======================================================="""
@@ -401,8 +495,12 @@ summary_text += "Training Time: {} min.\n".format(np.round(full_training_time / 
 
 summary_text += "---------------\n"
 for sub_logger in LOG.sub_loggers:
-    metrics = LOG.graph_writer[sub_logger].ov_title
-    summary_text += "{} metrics: {}\n".format(sub_logger.upper(), metrics)
+    try:
+        metrics = LOG.graph_writer[sub_logger].ov_title
+        summary_text += "{} metrics: {}\n".format(sub_logger.upper(), metrics)
+    except:
+        print(f'Error in logging {sub_logger}')
+
 
 with open(opt.save_path + "/training_summary.txt", "w") as summary_file:
     summary_file.write(summary_text)

@@ -2,14 +2,12 @@ from lib2to3.pytree import Base
 from datasets.basic_dataset_scaffold import BaseDataset
 import os
 import numpy as np
-
 import pandas as pd
 
 from ete3 import Tree
 from tqdm import tqdm
 from glob import glob
 from pathlib import Path
-
 
 
 # modified from ete3 codebase
@@ -67,21 +65,21 @@ def my_convert_to_ultrametric(tree, tree_length=None, strategy="fixed_child"):
 
 
 
-def get_T_matrix(classes, conversion, phylogeny):
+def get_T_matrix(classes, phylogeny):
     t = phylogeny.copy()
     t = my_convert_to_ultrametric(t)
     no_classes = len(classes)
     T = np.zeros((no_classes, no_classes))
 
-    t.prune(classes)
-    assert len(t.get_leaves()) == len(classes)
+    phylogeny.prune(classes)
+    assert len(phylogeny.get_leaves()) == len(classes)
     # First, assign mu to each of the leaves/species
     classes = []
 
     debug = False
     if debug:
         # don't bother calculating T since it takes so damn long for large phylogenies
-        return t.get_leaf_names(), np.diagflat(np.ones(no_classes))
+        return phylogeny.get_leaf_names(), np.diagflat(np.ones(no_classes))
 
     leaves = t.get_leaves()
     leaves = sorted(leaves, key=lambda x: x.name)
@@ -95,9 +93,9 @@ def get_T_matrix(classes, conversion, phylogeny):
             T[i, j] = ancestor.get_distance(t)
             T[j, i] = T[i, j]
 
-    class_indices = [conversion[x] for x in classes]
-    T = pd.DataFrame(T, index=class_indices, columns=class_indices)
+    T = pd.DataFrame(T, index=classes, columns=classes)
     return T
+
 def Give(opt, datapath):
     """
     This function generates a training, testing and evaluation dataloader for Metric Learning on the Rove dataset.
@@ -114,7 +112,7 @@ def Give(opt, datapath):
     image_sourcepath = Path(datapath)
     # Find available data classes.
     image_classes = sorted(
-        np.unique([Path(x).name for x in glob(str(image_sourcepath / "*" / "*"))])
+        [Path(x).name for x in glob(str(image_sourcepath / "*" / "*"))]
     )
     train_classes = sorted(
         [Path(x).name for x in glob(str(image_sourcepath / "train" / "*"))]
@@ -147,16 +145,18 @@ def Give(opt, datapath):
             image_dict[key] = []
         image_dict[key].append(img_path)
 
-
-
     train = [back_conversion[x] for x in train_classes]
     val = [back_conversion[x] for x in val_classes]
     test = [back_conversion[x] for x in test_classes]
+    assert len(image_classes) == len(train + val + test)
     assert len(set(image_classes)) == len(set(train + val + test))
 
-    train_image_dict = {key: [x for x in image_dict[key] if x.split('/')[-3] == 'train'] for key in train}
-    val_image_dict = {key: [x for x in image_dict[key] if x.split('/')[-3] == 'val'] for key in val}
-    test_image_dict = {key: [x for x in image_dict[key] if  x.split('/')[-3] == 'test' ] for key in test}
+    train_image_dict = {key: image_dict[key] for key in train}
+    val_image_dict = {key: image_dict[key] for key in val}
+    test_image_dict = {key: image_dict[key] for key in test}
+    train_conversion = {i: conversion[key] for i, key in enumerate(train)}
+    val_conversion = {i: conversion[key] for i, key in enumerate(val)}
+    test_conversion = {i: conversion[key] for i, key in enumerate(test)}
 
     train_dataset = BaseDataset(train_image_dict, opt)
     val_dataset = BaseDataset(val_image_dict, opt, is_validation=True)
@@ -164,13 +164,12 @@ def Give(opt, datapath):
     eval_dataset = BaseDataset(train_image_dict, opt, is_validation=True)
     eval_train_dataset = BaseDataset(train_image_dict, opt, is_validation=False)
 
-
-    phylogeny = Tree(str(image_sourcepath / 'phylogenyGenus.nh'))
-    train_dataset.T = get_T_matrix(train_classes, back_conversion, phylogeny)
-    val_dataset.T = get_T_matrix(val_classes, back_conversion, phylogeny)
-    test_dataset.T = get_T_matrix(test_classes, back_conversion, phylogeny)
-    eval_dataset.T = get_T_matrix(train_classes, back_conversion, phylogeny)
-    eval_train_dataset.T = get_T_matrix(train_classes, back_conversion, phylogeny)
+    phylogeny = Tree(image_sourcepath / 'phylogeny.nh')
+    train_dataset.T = get_T_matrix(train_classes, phylogeny)
+    val_dataset.T = get_T_matrix(val_classes, phylogeny)
+    test_dataset.T = get_T_matrix(test_classes, phylogeny)
+    eval_dataset.T = get_T_matrix(train_classes, phylogeny)
+    eval_train_dataset.T = get_T_matrix(train_classes, phylogeny)
 
     print(
         "\nDataset Setup:\nUsing Train-Val Split: {0}\n#Classes: Train ({1}) | Val ({2}) | Test ({3})\n".format(
@@ -181,11 +180,11 @@ def Give(opt, datapath):
         )
     )
 
-    train_dataset.conversion = conversion
-    val_dataset.conversion = conversion
-    test_dataset.conversion = conversion
-    eval_dataset.conversion = conversion
-    eval_train_dataset.conversion = conversion
+    train_dataset.conversion = train_conversion
+    val_dataset.conversion = val_conversion
+    test_dataset.conversion = test_conversion
+    eval_dataset.conversion = val_conversion
+    eval_train_dataset.conversion = train_conversion
 
     return {
         "training": train_dataset,

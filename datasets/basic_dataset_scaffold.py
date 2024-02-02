@@ -7,7 +7,16 @@ import torchvision.transforms as transforms
 import numpy as np
 from PIL import Image
 import cv2
+import torchvision.transforms.functional as F
 
+# from https://discuss.pytorch.org/t/how-to-resize-and-pad-in-a-torchvision-transforms-compose/71850/9
+class SquarePad:
+    def __call__(self, image):
+        max_wh = max(image.size)
+        p_left, p_top = [(max_wh - s) // 2 for s in image.size]
+        p_right, p_bottom = [max_wh - (s+pad) for s, pad in zip(image.size, [p_left, p_top])]
+        padding = (p_left, p_top, p_right, p_bottom)
+        return F.pad(image, padding, 255, 'constant')
 
 class Transforms:
     def __init__(self, transforms: A.Compose):
@@ -75,11 +84,15 @@ class BaseDataset(Dataset):
                     ]
                 )
             elif opt.augmentation == "rove":
-
                 self.normal_transform.extend(
                     [
-                        transforms.RandomResizedCrop(size=crop_im_size),
+                        transforms.Resize(size=190, max_size=200),
+                        transforms.Pad(padding=30, fill=255),
+                        SquarePad(),
+                        transforms.RandomAffine(degrees=(-5,5),translate=(0.005,0.05),scale=(0.9,1.0), fill=255),
                         transforms.RandomVerticalFlip(0.5),
+                        transforms.RandomResizedCrop(size=crop_im_size, scale=(0.75,1)),
+                        transforms.ColorJitter(brightness=0.1,contrast=0.1,saturation=0.1,hue=0.1),
                     ]
                 )
                 """ self.normal_transform = Transforms(
@@ -112,7 +125,7 @@ class BaseDataset(Dataset):
                 ) """
         else:
             self.normal_transform.extend(
-                [transforms.Resize(256), transforms.CenterCrop(crop_im_size)]
+                [transforms.Resize(220, max_size=224), SquarePad()]
             )
             """ self.normal_transform = Transforms(
                     A.Compose(
