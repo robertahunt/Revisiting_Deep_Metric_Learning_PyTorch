@@ -64,7 +64,7 @@ def basic_training_parameters(parser):
         help="Weight decay placed on network weights.",
     )
     parser.add_argument(
-        "--n_epochs", default=150, type=int, help="Number of training epochs."
+        "--n_epochs", default=50, type=int, help="Number of training epochs."
     )
     parser.add_argument(
         "--debug",
