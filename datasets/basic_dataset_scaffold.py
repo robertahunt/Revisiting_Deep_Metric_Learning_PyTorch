@@ -92,11 +92,11 @@ class BaseDataset(Dataset):
                         transforms.RandomAffine(degrees=(-5,5),translate=(0,0.01),scale=(0.95,1.05), fill=255),
                         transforms.RandomVerticalFlip(0.5),
                         transforms.RandomResizedCrop(size=crop_im_size, scale=(0.75,1)),
-                        # transforms.ColorJitter(brightness=0.1,contrast=0.1,saturation=0.1,hue=0.1),
+                        transforms.ColorJitter(brightness=0.1,contrast=0.1,saturation=0.1,hue=0.1),
                     ]
                 )
             
-            elif opt.augmentation == "roveOld":
+            elif opt.augmentation == "Tester":
                 self.normal_transform.extend(
                     [
                         transforms.RandomResizedCrop(size=crop_im_size),
