@@ -98,6 +98,8 @@ def get_T_matrix(classes, conversion, phylogeny):
     class_indices = [conversion[x] for x in classes]
     T = pd.DataFrame(T, index=class_indices, columns=class_indices)
     return T
+
+
 def Give(opt, datapath):
     """
     This function generates a training, testing and evaluation dataloader for Metric Learning on the Rove dataset.

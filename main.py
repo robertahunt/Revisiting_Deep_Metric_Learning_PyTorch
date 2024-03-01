@@ -240,7 +240,7 @@ if opt.gradcam:
     cam = GradCAM(model=model, target_layers=target_layers)
     
     # for each genus - get an example per genus
-    image_dict = datasets['training'].image_dict
+    image_dict = datasets['validation'].image_dict
 
     assert len(opt.checkpoint)
     gradcam_folder = os.path.join('/'.join(opt.checkpoint.split('/')[:-1]), 'gradcam')
@@ -249,9 +249,9 @@ if opt.gradcam:
     
     genera_ids = image_dict.keys()
     for genus_id in genera_ids:
-        genus = datasets['training'].conversion[genus_id]
+        genus = datasets['validation'].conversion[genus_id]
         image_id = image_dict[genus_id][0][-1]
-        input = datasets['training'].__getitem__(image_id)[1].unsqueeze(0)
+        input = datasets['validation'].__getitem__(image_id)[1].unsqueeze(0)
 
         image = input[0].permute(1,2,0).detach().cpu().numpy()
         image = (image - image.min()) / (image.max()-image.min())
@@ -347,7 +347,7 @@ for epoch in range(opt.n_epochs):
 
     loss_collect = []
 
-    # plot_inputs(dataloaders)
+    #plot_inputs(dataloaders)
 
     data_iterator = tqdm(
         dataloaders["training"], desc="Epoch {} Training...".format(epoch)

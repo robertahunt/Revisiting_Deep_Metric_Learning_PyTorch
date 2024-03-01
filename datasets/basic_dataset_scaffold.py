@@ -89,10 +89,18 @@ class BaseDataset(Dataset):
                         transforms.Resize(size=190, max_size=200),
                         transforms.Pad(padding=30, fill=255),
                         SquarePad(),
-                        transforms.RandomAffine(degrees=(-5,5),translate=(0.005,0.05),scale=(0.9,1.0), fill=255),
+                        transforms.RandomAffine(degrees=(-5,5),translate=(0,0.01),scale=(0.95,1.05), fill=255),
                         transforms.RandomVerticalFlip(0.5),
                         transforms.RandomResizedCrop(size=crop_im_size, scale=(0.75,1)),
-                        transforms.ColorJitter(brightness=0.1,contrast=0.1,saturation=0.1,hue=0.1),
+                        # transforms.ColorJitter(brightness=0.1,contrast=0.1,saturation=0.1,hue=0.1),
+                    ]
+                )
+            
+            elif opt.augmentation == "roveOld":
+                self.normal_transform.extend(
+                    [
+                        transforms.RandomResizedCrop(size=crop_im_size),
+                        transforms.RandomVerticalFlip(0.5),
                     ]
                 )
                 """ self.normal_transform = Transforms(
@@ -123,7 +131,8 @@ class BaseDataset(Dataset):
                         ]
                      )
                 ) """
-        else:
+        
+        else: # validation
             self.normal_transform.extend(
                 [transforms.Resize(220, max_size=224), SquarePad()]
             )
