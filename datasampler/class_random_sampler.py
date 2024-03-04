@@ -38,8 +38,8 @@ class Sampler(torch.utils.data.sampler.Sampler):
             ### Random Subset from Random classes
             draws = self.batch_size//self.samples_per_class
 
-            for _ in range(draws):
-                class_key = random.choice(self.classes)
+            class_keys = np.random.choice(self.classes, size=draws, replace=False)
+            for class_key in class_keys:
                 class_ix_list = [random.choice(self.image_dict[class_key])[-1] for _ in range(self.samples_per_class)]
                 subset.extend(class_ix_list)
 
