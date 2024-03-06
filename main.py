@@ -430,7 +430,7 @@ for epoch in range(opt.n_epochs):
     LOG.progress_saver["Train"].log("time", np.round(time.time() - start, 4))
 
     """======================================="""
-    if (epoch % 10) == 0:
+    if ((epoch % 10) == 0) or (epoch == opt.n_epochs - 1):
         ### Evaluate Metric for Training & Test (& Validation)
         _ = model.eval()
         print("\nComputing Testing Metrics...")
