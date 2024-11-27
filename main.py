@@ -13,6 +13,7 @@ import matplotlib
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
 
+from time import sleep
 from tqdm import tqdm
 #from carbontracker.tracker import CarbonTracker
 
@@ -236,14 +237,14 @@ if len(opt.checkpoint):
 """============================================================================"""
 ################### Produce saliency maps #########################
 if opt.gradcam:
-    target_layers =[ model.model.layer4[-1].relu]#  model.model.layer4[-1].relu
+    target_layers =[ model.model.layer4[-1].conv3]#   last convolutional layer
     cam = GradCAM(model=model, target_layers=target_layers)
     
     # for each genus - get an example per genus
     image_dict = datasets['validation'].image_dict
 
     assert len(opt.checkpoint)
-    gradcam_folder = os.path.join('/'.join(opt.checkpoint.split('/')[:-1]), 'gradcam')
+    gradcam_folder = os.path.join('/'.join(opt.checkpoint.split('/')[:-1]), 'gradcamconv3_bw')
     if not os.path.exists(gradcam_folder):
         os.makedirs(gradcam_folder)
     
@@ -251,25 +252,33 @@ if opt.gradcam:
     for genus_id in genera_ids:
         genus = datasets['validation'].conversion[genus_id]
         image_id = image_dict[genus_id][0][-1]
-        input = datasets['validation'].__getitem__(image_id)[1].unsqueeze(0)
+        inp = datasets['validation'].__getitem__(image_id)[1].unsqueeze(0)
 
-        image = input[0].permute(1,2,0).detach().cpu().numpy()
+        image = inp[0].permute(1,2,0).detach().cpu().numpy()
         image = (image - image.min()) / (image.max()-image.min())
+        output = model(inp.cuda())[0].squeeze().cpu().detach().numpy()
         for latent_var in range(128):
-            targets = [ClassifierOutputTarget(latent_var),ClassifierOutputTarget(latent_var)]
-            input_tensor = input.repeat(len(targets), 1, 1, 1)
+            targets = [ClassifierOutputTarget(latent_var)]
+            input_tensor = inp.repeat(len(targets), 1, 1, 1)
             
 
             saliency = cam(input_tensor=input_tensor,targets=targets)[0]
             visualization = show_cam_on_image(image, saliency, use_rgb = True)
+            image_mask = (cv2.cvtColor(image, cv2.COLOR_RGB2GRAY) < 0.75).astype('float')
+            bw_vis = image_mask*0.25 + saliency*0.75
             latent_folder = os.path.join(gradcam_folder,str(latent_var))
+            sleep(0.01)
             if not os.path.exists(latent_folder):
                 os.makedirs(latent_folder)
             
-            plot_path = os.path.join(latent_folder, genus + '.png')
+            
+            fn = str(np.round((output[latent_var] + 1)*1000, 0)).replace('.','_') + '_' + genus + '.png'
+            plot_path = os.path.join(latent_folder, fn)
             plt.figure()
-            plt.imshow(visualization)
-            plt.savefig(plot_path)
+            plt.axis('off')
+            plt.imshow(bw_vis, cmap='gray')
+            #plt.imshow(visualization, cmap='gray')
+            plt.savefig(plot_path, bbox_inches='tight')
 
     quit()
 

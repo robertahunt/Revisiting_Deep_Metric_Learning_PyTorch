@@ -166,8 +166,10 @@ def Give(opt, datapath):
     eval_dataset = BaseDataset(train_image_dict, opt, is_validation=True)
     eval_train_dataset = BaseDataset(train_image_dict, opt, is_validation=False)
 
-
-    phylogeny = Tree(str(image_sourcepath / 'phylogenyGenus.nh'))
+    if 'Genus' in datapath:
+        phylogeny = Tree(str(image_sourcepath / 'phylogenyGenus.nh'))
+    else:
+        phylogeny = Tree(str(image_sourcepath / 'phylogeny.nh'))
     train_dataset.T = get_T_matrix(train_classes, back_conversion, phylogeny)
     val_dataset.T = get_T_matrix(val_classes, back_conversion, phylogeny)
     test_dataset.T = get_T_matrix(test_classes, back_conversion, phylogeny)
